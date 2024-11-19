@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  webservice:
+    build:
+      context: ./webservice
+    environment:
+      - SERVICE_MESSAGE=Hello, this is Orchestration Assignment 3 by Jagjeet Singh!
+    ports:
+      - "5000"
+    networks:
+      - app-network  # Connect to the same custom network
+
+  loadbalancer:
+    build:
+      context: ./loadbalancer
+    ports:
+      - "9090:80"
+    depends_on:
+      - webservice
+    networks:
+      - app-network  # Connect to the same custom network
+
+networks:
+  app-network:  # Define a custom network for both services
